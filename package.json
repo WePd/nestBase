@@ -25,6 +25,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
     "@types/multer": "^2.0.0",
+    "compressing": "^2.0.0",
     "cors": "^2.8.5",
     "express-session": "^1.18.2",
     "multer": "^2.0.2",
