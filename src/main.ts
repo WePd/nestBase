@@ -4,20 +4,23 @@ import { ConfigModule } from './config/config.module';
 import { Request, Response, NextFunction } from 'express';
 import * as session from 'express-session';
 import * as cors from 'cors';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 const whiteList = ['/list'];
 
 function globalMiddleWare(req: Request, res: Response, next: NextFunction) {
   console.log('globalMiddleWare...');
   console.log(req.originalUrl);
-  if (whiteList.includes(req.originalUrl)) {
-    next();
-  } else {
-    res.send('你没有权限访问');
-  }
+  // if (whiteList.includes(req.originalUrl)) {
+  //   next();
+  // } else {
+  //   res.send('你没有权限访问');
+  // }
+  next();
 }
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(
     session({
       secret: 'my-secret',
@@ -30,6 +33,8 @@ async function bootstrap() {
     }),
   );
   app.use(cors());
+  // 静态资源访问目录
+  app.useStaticAssets(join(__dirname, 'images'));
   // 全局中间件
   app.use(globalMiddleWare);
   await app.listen(3000);
