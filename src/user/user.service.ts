@@ -23,7 +23,7 @@ export class UserService {
   }
 
   findAll() {
-    return `xxxxxxx`;
+    return `xxxxxxx------`;
   }
 
   findOne(id: number) {

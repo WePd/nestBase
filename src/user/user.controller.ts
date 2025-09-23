@@ -9,16 +9,21 @@ import {
   Res,
   Req,
   Session,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AaaInterceptor } from '../common/Test';
+import { CommonResponse } from 'src/common/response';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('/code')
+  @UseInterceptors(AaaInterceptor)
+  // @UseInterceptors(CommonResponse)
   createCode(@Req() req, @Res() res, @Session() session) {
     return this.userService.createCode(req, res, session);
   }

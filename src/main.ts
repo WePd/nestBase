@@ -6,6 +6,8 @@ import * as session from 'express-session';
 import * as cors from 'cors';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { CommonResponse } from './common/response';
+import { HttpFilter } from './common/filter';
 
 const whiteList = ['/list'];
 
@@ -37,6 +39,12 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, 'images'));
   // 全局中间件
   app.use(globalMiddleWare);
+
+  // 响应拦截器
+  app.useGlobalInterceptors(new CommonResponse());
+
+  // 全局异常过滤器
+  app.useGlobalFilters(new HttpFilter());
   await app.listen(3000);
 }
 bootstrap();
