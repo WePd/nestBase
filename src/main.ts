@@ -8,6 +8,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { CommonResponse } from './common/response';
 import { HttpFilter } from './common/filter';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 const whiteList = ['/list'];
 
@@ -45,6 +46,17 @@ async function bootstrap() {
 
   // 全局异常过滤器
   app.useGlobalFilters(new HttpFilter());
+
+  const config = new DocumentBuilder()
+    .setTitle('Nestjs API测试')
+    .addBearerAuth()
+    .setDescription('Nestjs API description')
+    .setVersion('1.0')
+    .addTag('nestjs')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api-docs', app, document);
+
   await app.listen(3000);
 }
 bootstrap();

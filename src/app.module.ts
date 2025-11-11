@@ -6,9 +6,24 @@ import { UserModule } from './user/user.module';
 import { ListModule } from './list/list.module';
 import { ConfigModule } from './config/config.module';
 import { UploadModule } from './upload/upload.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TestormModule } from './testorm/testorm.module';
+import { Testorm } from './testorm/entities/testorm.entity';
 
+// mongodb://localhost:27017/
 @Module({
-  imports: [UserModule, ListModule, ConfigModule.forRoot({ path: '/kb' }), UploadModule],
+  imports: [TypeOrmModule.forRoot({
+      type: 'mongodb',
+      host: 'localhost',
+      url: 'mongodb://localhost:27017/',
+      // port: 27017,
+      // username: 'root',
+      // password: '123456',
+      database: 'mongodbLearning',
+      entities: [Testorm],
+      synchronize: true,
+      autoLoadEntities: true,
+    }),UserModule, ListModule, ConfigModule.forRoot({ path: '/kb' }), UploadModule, TestormModule],
   controllers: [AppController],
   providers: [
     AppService2,

@@ -16,6 +16,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AaaInterceptor } from '../common/Test';
 import { CommonResponse } from 'src/common/response';
+import { ApiOperation, ApiParam } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -29,6 +30,8 @@ export class UserController {
   }
 
   @Post('/create')
+  @ApiOperation({ summary: '创建用户', description: '创建一个新用户' })
+  @ApiParam({ name: 'code', description: '验证码' })
   createUser(@Body() Body, @Session() session) {
     console.log(Body, session.code);
     if (Body.code.toLowerCase() === session.code.toLowerCase()) {
